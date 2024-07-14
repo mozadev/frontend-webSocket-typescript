@@ -1,4 +1,4 @@
-import { Manager } from "socket.io-client"
+import { Manager, Socket } from "socket.io-client"
 
 export const connecToServer = () => {
         
@@ -8,5 +8,22 @@ export const connecToServer = () => {
   
 
     const socket = manager.socket('/')
-    console.log({socket})
+    // console.log({socket})
+    addListerners(socket);
 }
+
+const addListerners = (socket: Socket) => {
+
+    const serverStatusLabel = document.querySelector('#server-status')!;
+
+    socket.on('connect', () => {
+        // console.log('Connected to server')
+        serverStatusLabel.innerHTML='connected'
+    })
+
+    socket.on('disconnect', () => {
+        // console.log('Disconnected from server')
+        serverStatusLabel.innerHTML='disconnected'
+    })
+}
+
